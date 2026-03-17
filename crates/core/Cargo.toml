@@ -1,0 +1,43 @@
+[package]
+name = "playleft-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core engine for playwLeft browser automation"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+futures-util = { workspace = true }
+url = { workspace = true }
+
+# WebSocket client for CDP
+tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
+
+# HTTP client for browser discovery
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+# Process management
+which = "7"
+
+# Unique IDs
+uuid = { version = "1", features = ["v4"] }
+
+# Async traits
+async-trait = "0.1"
+
+# Regex for selectors
+regex = "1"
+
+# Base64 for data encoding
+base64 = "0.22"
+
+# Temporary directories
+tempfile = "3"
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros"] }
