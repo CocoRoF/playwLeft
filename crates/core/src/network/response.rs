@@ -26,6 +26,7 @@ pub struct Response {
     remote_address: Option<String>,
 }
 
+#[allow(dead_code)]
 impl Response {
     /// Create a new Response from CDP event data.
     pub(crate) fn from_cdp_event(params: &serde_json::Value) -> Option<Self> {

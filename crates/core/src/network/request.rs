@@ -23,6 +23,7 @@ pub struct Request {
     is_intercepted: bool,
 }
 
+#[allow(dead_code)]
 impl Request {
     /// Create a new Request from CDP event data.
     pub(crate) fn from_cdp_event(params: &serde_json::Value) -> Option<Self> {

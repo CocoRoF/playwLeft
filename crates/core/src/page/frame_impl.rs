@@ -259,6 +259,7 @@ impl Frame {
     }
 
     /// Get the CDP session for this frame.
+    #[allow(dead_code)]
     pub(crate) fn session(&self) -> &CdpSession {
         &self.session
     }

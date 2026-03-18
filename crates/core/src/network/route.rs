@@ -18,6 +18,7 @@ pub struct Route {
     headers: HashMap<String, String>,
 }
 
+#[allow(dead_code)]
 impl Route {
     /// Create a new Route from an intercepted request.
     pub(crate) fn new(

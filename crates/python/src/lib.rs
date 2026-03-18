@@ -49,18 +49,6 @@ fn json_to_py(py: Python<'_>, val: &serde_json::Value) -> PyResult<PyObject> {
     }
 }
 
-/// Get or create the shared Tokio runtime.
-fn runtime() -> &'static tokio::runtime::Runtime {
-    use std::sync::OnceLock;
-    static RT: OnceLock<tokio::runtime::Runtime> = OnceLock::new();
-    RT.get_or_init(|| {
-        tokio::runtime::Builder::new_multi_thread()
-            .enable_all()
-            .build()
-            .expect("Failed to create Tokio runtime")
-    })
-}
-
 // ─── PlaywLeft ───────────────────────────────────────────────────────
 
 /// The main entry point — provides access to browser types.

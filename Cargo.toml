@@ -9,7 +9,7 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-repository = "https://github.com/user/playleft"
+repository = "https://github.com/CocoRoF/playwLeft"
 description = "Agent-first browser automation toolkit built in Rust"
 
 [workspace.dependencies]
