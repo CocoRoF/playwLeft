@@ -5,7 +5,6 @@ use crate::error::{PlaywLeftError, Result};
 use crate::protocol::session::CdpSession;
 use crate::protocol::types::RemoteObject;
 
-
 /// Represents a frame within a page (main frame or iframe).
 ///
 /// Frames provide the execution context for JavaScript and DOM operations.
@@ -71,9 +70,7 @@ impl Frame {
 
         // Check for exceptions
         if let Some(exception) = result.get("exceptionDetails") {
-            let text = exception["text"]
-                .as_str()
-                .unwrap_or("Unknown error");
+            let text = exception["text"].as_str().unwrap_or("Unknown error");
             let exception_obj = exception
                 .get("exception")
                 .and_then(|e| e["description"].as_str())
@@ -82,7 +79,10 @@ impl Frame {
         }
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         Ok(remote_object.into_value())
@@ -119,7 +119,10 @@ impl Frame {
         }
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         Ok(remote_object.into_value())
@@ -127,16 +130,11 @@ impl Frame {
 
     /// Get the full HTML content of this frame.
     pub async fn content(&self) -> Result<String> {
-        let result = self
-            .evaluate("document.documentElement.outerHTML")
-            .await?;
+        let result = self.evaluate("document.documentElement.outerHTML").await?;
 
-        result
-            .as_str()
-            .map(String::from)
-            .ok_or_else(|| {
-                PlaywLeftError::EvaluationError("Failed to get page content".to_string())
-            })
+        result.as_str().map(String::from).ok_or_else(|| {
+            PlaywLeftError::EvaluationError("Failed to get page content".to_string())
+        })
     }
 
     /// Get the page title from this frame.
@@ -162,7 +160,10 @@ impl Frame {
             .await?;
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         if remote_object.subtype.as_deref() == Some("null") || remote_object.object_id.is_none() {
@@ -194,7 +195,10 @@ impl Frame {
             .await?;
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         let Some(array_id) = remote_object.object_id else {
@@ -235,11 +239,7 @@ impl Frame {
     }
 
     /// Wait for a selector to appear in the frame.
-    pub async fn wait_for_selector(
-        &self,
-        selector: &str,
-        timeout_ms: u64,
-    ) -> Result<Element> {
+    pub async fn wait_for_selector(&self, selector: &str, timeout_ms: u64) -> Result<Element> {
         let poll_interval = std::time::Duration::from_millis(100);
         let deadline = tokio::time::Instant::now() + std::time::Duration::from_millis(timeout_ms);
 

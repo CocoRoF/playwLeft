@@ -86,9 +86,7 @@ impl Route {
         if let Some(headers) = headers {
             let header_entries: Vec<serde_json::Value> = headers
                 .iter()
-                .map(|(k, v)| {
-                    serde_json::json!({ "name": k, "value": v })
-                })
+                .map(|(k, v)| serde_json::json!({ "name": k, "value": v }))
                 .collect();
             params["headers"] = serde_json::json!(header_entries);
         }
@@ -121,9 +119,7 @@ impl Route {
         if let Some(headers) = headers {
             let header_entries: Vec<serde_json::Value> = headers
                 .iter()
-                .map(|(k, v)| {
-                    serde_json::json!({ "name": k, "value": v })
-                })
+                .map(|(k, v)| serde_json::json!({ "name": k, "value": v }))
                 .collect();
             params["responseHeaders"] = serde_json::json!(header_entries);
         }

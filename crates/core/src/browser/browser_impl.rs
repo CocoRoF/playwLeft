@@ -81,17 +81,20 @@ impl Browser {
 
         let context_id = result["browserContextId"]
             .as_str()
-            .ok_or_else(|| {
-                PlaywLeftError::ProtocolError {
-                    code: -1,
-                    message: "No browserContextId in response".to_string(),
-                }
+            .ok_or_else(|| PlaywLeftError::ProtocolError {
+                code: -1,
+                message: "No browserContextId in response".to_string(),
             })?
             .to_string();
 
         debug!(context_id = %context_id, "Created new browser context");
 
-        BrowserContext::new(self.session.clone(), context_id, self.default_viewport.clone()).await
+        BrowserContext::new(
+            self.session.clone(),
+            context_id,
+            self.default_viewport.clone(),
+        )
+        .await
     }
 
     /// Create a new page in the default browser context.

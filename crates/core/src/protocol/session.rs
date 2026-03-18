@@ -33,11 +33,7 @@ impl CdpSession {
     }
 
     /// Create a session targeting a specific page/context.
-    pub fn new_target(
-        transport: Arc<Transport>,
-        session_id: String,
-        target_id: String,
-    ) -> Self {
+    pub fn new_target(transport: Arc<Transport>, session_id: String, target_id: String) -> Self {
         Self {
             transport,
             session_id: Some(session_id),
@@ -56,11 +52,7 @@ impl CdpSession {
     }
 
     /// Send a CDP command with parameters.
-    pub async fn send(
-        &self,
-        method: &str,
-        params: serde_json::Value,
-    ) -> Result<serde_json::Value> {
+    pub async fn send(&self, method: &str, params: serde_json::Value) -> Result<serde_json::Value> {
         self.transport
             .send_command(method, params, self.session_id.clone())
             .await
@@ -89,11 +81,7 @@ impl CdpSession {
     }
 
     /// Wait for a specific event on this session.
-    pub async fn wait_for_event(
-        &self,
-        method: &str,
-        timeout_ms: u64,
-    ) -> Result<CdpResponse> {
+    pub async fn wait_for_event(&self, method: &str, timeout_ms: u64) -> Result<CdpResponse> {
         let mut rx = self.transport.subscribe_events();
         let target_method = method.to_string();
         let error_method = target_method.clone();
@@ -140,11 +128,9 @@ impl CdpSession {
 
         let session_id = result["sessionId"]
             .as_str()
-            .ok_or_else(|| {
-                PlaywLeftError::ProtocolError {
-                    code: -1,
-                    message: "No sessionId in attachToTarget response".to_string(),
-                }
+            .ok_or_else(|| PlaywLeftError::ProtocolError {
+                code: -1,
+                message: "No sessionId in attachToTarget response".to_string(),
             })?
             .to_string();
 

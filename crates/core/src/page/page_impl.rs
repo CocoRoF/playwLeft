@@ -111,10 +111,7 @@ impl Page {
 
         let result = self
             .session
-            .send(
-                "Page.navigate",
-                serde_json::json!({ "url": url }),
-            )
+            .send("Page.navigate", serde_json::json!({ "url": url }))
             .await?;
 
         // Check for navigation error
@@ -125,12 +122,9 @@ impl Page {
         }
 
         // Wait for the load event with timeout
-        tokio::time::timeout(
-            std::time::Duration::from_millis(30000),
-            load_fut,
-        )
-        .await
-        .map_err(|_| PlaywLeftError::Timeout("Page load timed out".to_string()))??;
+        tokio::time::timeout(std::time::Duration::from_millis(30000), load_fut)
+            .await
+            .map_err(|_| PlaywLeftError::Timeout("Page load timed out".to_string()))??;
 
         Ok(())
     }
@@ -175,12 +169,9 @@ impl Page {
             }
         }
 
-        tokio::time::timeout(
-            std::time::Duration::from_millis(timeout_ms),
-            load_fut,
-        )
-        .await
-        .map_err(|_| PlaywLeftError::Timeout("Page load timed out".to_string()))??;
+        tokio::time::timeout(std::time::Duration::from_millis(timeout_ms), load_fut)
+            .await
+            .map_err(|_| PlaywLeftError::Timeout("Page load timed out".to_string()))??;
 
         Ok(())
     }
@@ -252,7 +243,9 @@ impl Page {
     pub async fn wait_for_load_state(&self, state: &str, timeout_ms: u64) -> Result<()> {
         match state {
             "load" => {
-                self.session.wait_for_event("Page.loadEventFired", timeout_ms).await?;
+                self.session
+                    .wait_for_event("Page.loadEventFired", timeout_ms)
+                    .await?;
             }
             "DOMContentLoaded" | "domcontentloaded" => {
                 self.session
@@ -261,7 +254,9 @@ impl Page {
             }
             "networkIdle" | "networkidle" => {
                 // Wait for load first, then a brief period with no network activity
-                self.session.wait_for_event("Page.loadEventFired", timeout_ms).await?;
+                self.session
+                    .wait_for_event("Page.loadEventFired", timeout_ms)
+                    .await?;
                 tokio::time::sleep(std::time::Duration::from_millis(500)).await;
             }
             _ => {
@@ -283,12 +278,10 @@ impl Page {
     }
 
     /// Wait for a CSS selector to appear on the page.
-    pub async fn wait_for_selector(
-        &self,
-        selector: &str,
-        timeout_ms: u64,
-    ) -> Result<Element> {
-        self.main_frame.wait_for_selector(selector, timeout_ms).await
+    pub async fn wait_for_selector(&self, selector: &str, timeout_ms: u64) -> Result<Element> {
+        self.main_frame
+            .wait_for_selector(selector, timeout_ms)
+            .await
     }
 
     // ─── Content ─────────────────────────────────────────────────────
@@ -343,12 +336,9 @@ impl Page {
             .await?;
 
         // Wait for load event so scripts in the HTML have executed
-        tokio::time::timeout(
-            std::time::Duration::from_millis(30000),
-            load_fut,
-        )
-        .await
-        .map_err(|_| PlaywLeftError::Timeout("set_content load timed out".to_string()))??;
+        tokio::time::timeout(std::time::Duration::from_millis(30000), load_fut)
+            .await
+            .map_err(|_| PlaywLeftError::Timeout("set_content load timed out".to_string()))??;
 
         Ok(())
     }
@@ -563,10 +553,7 @@ impl Page {
 
         let result = self
             .session
-            .send(
-                "Accessibility.getFullAXTree",
-                serde_json::json!({}),
-            )
+            .send("Accessibility.getFullAXTree", serde_json::json!({}))
             .await?;
 
         Ok(result)
