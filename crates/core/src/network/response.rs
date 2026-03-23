@@ -41,18 +41,13 @@ impl Response {
             request_id: params["requestId"].as_str()?.to_string(),
             url: response["url"].as_str()?.to_string(),
             status: response["status"].as_u64().unwrap_or(0) as u16,
-            status_text: response["statusText"]
-                .as_str()
-                .unwrap_or("")
-                .to_string(),
+            status_text: response["statusText"].as_str().unwrap_or("").to_string(),
             headers,
             mime_type: response["mimeType"]
                 .as_str()
                 .unwrap_or("application/octet-stream")
                 .to_string(),
-            remote_address: response["remoteIPAddress"]
-                .as_str()
-                .map(String::from),
+            remote_address: response["remoteIPAddress"].as_str().map(String::from),
         })
     }
 

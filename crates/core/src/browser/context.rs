@@ -58,11 +58,9 @@ impl BrowserContext {
 
         let target_id = result["targetId"]
             .as_str()
-            .ok_or_else(|| {
-                PlaywLeftError::ProtocolError {
-                    code: -1,
-                    message: "No targetId in createTarget response".to_string(),
-                }
+            .ok_or_else(|| PlaywLeftError::ProtocolError {
+                code: -1,
+                message: "No targetId in createTarget response".to_string(),
             })?
             .to_string();
 

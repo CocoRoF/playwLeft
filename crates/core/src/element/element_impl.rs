@@ -382,11 +382,8 @@ impl Element {
 
     /// Scroll this element into view.
     pub async fn scroll_into_view(&self) -> Result<()> {
-        self.call_on(
-            "function() { this.scrollIntoViewIfNeeded(true); }",
-            &[],
-        )
-        .await?;
+        self.call_on("function() { this.scrollIntoViewIfNeeded(true); }", &[])
+            .await?;
         Ok(())
     }
 
@@ -410,7 +407,10 @@ impl Element {
             .await?;
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         if remote_object.subtype.as_deref() == Some("null") || remote_object.object_id.is_none() {
@@ -443,7 +443,10 @@ impl Element {
             .await?;
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         let Some(array_id) = remote_object.object_id else {
@@ -514,7 +517,10 @@ impl Element {
         }
 
         let remote_object: RemoteObject = serde_json::from_value(
-            result.get("result").cloned().unwrap_or(serde_json::Value::Null),
+            result
+                .get("result")
+                .cloned()
+                .unwrap_or(serde_json::Value::Null),
         )?;
 
         Ok(remote_object.into_value())

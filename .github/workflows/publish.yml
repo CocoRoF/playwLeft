@@ -20,6 +20,13 @@ on:
       - deploy
     paths:
       - "pyproject.toml"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force publish (skip version check)"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   # ── 1. Version gate ───────────────────────────────────────
@@ -45,6 +52,13 @@ jobs:
           if [ "$NEW_VERSION" != "$CARGO_VERSION" ]; then
             echo "::error::Version mismatch! pyproject.toml=$NEW_VERSION vs Cargo.toml=$CARGO_VERSION"
             exit 1
+          fi
+
+          # Force publish via manual trigger
+          if [ "${{ github.event.inputs.force }}" == "true" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "🔧 Force publish requested, skipping version comparison."
+            exit 0
           fi
 
           # Compare with previous commit

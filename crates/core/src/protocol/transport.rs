@@ -244,11 +244,7 @@ impl Transport {
     }
 
     /// Wait for a specific CDP event matching the given method name.
-    pub async fn wait_for_event(
-        &self,
-        method: &str,
-        timeout_ms: u64,
-    ) -> Result<CdpResponse> {
+    pub async fn wait_for_event(&self, method: &str, timeout_ms: u64) -> Result<CdpResponse> {
         let mut rx = self.event_tx.subscribe();
         let target_method = method.to_string();
         let duration = std::time::Duration::from_millis(timeout_ms);

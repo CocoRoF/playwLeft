@@ -167,13 +167,11 @@ impl BrowserType {
         let client = reqwest::Client::new();
         let response: serde_json::Value = client.get(&version_url).send().await?.json().await?;
 
-        let ws_url = response["webSocketDebuggerUrl"]
-            .as_str()
-            .ok_or_else(|| {
-                PlaywLeftError::ConnectionError(
-                    "No webSocketDebuggerUrl in /json/version response".to_string(),
-                )
-            })?;
+        let ws_url = response["webSocketDebuggerUrl"].as_str().ok_or_else(|| {
+            PlaywLeftError::ConnectionError(
+                "No webSocketDebuggerUrl in /json/version response".to_string(),
+            )
+        })?;
 
         let transport = Arc::new(Transport::connect(ws_url).await?);
         Browser::new(transport, None, None, Some(Viewport::default())).await
@@ -283,11 +281,7 @@ fn build_chromium_args(options: &LaunchOptions, user_data_dir: &std::path::Path)
 fn find_chromium_executable() -> Result<PathBuf> {
     // Try well-known executable names
     let candidates = if cfg!(target_os = "windows") {
-        vec![
-            "chrome.exe",
-            "chromium.exe",
-            "msedge.exe",
-        ]
+        vec!["chrome.exe", "chromium.exe", "msedge.exe"]
     } else if cfg!(target_os = "macos") {
         vec![
             "google-chrome",

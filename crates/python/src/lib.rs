@@ -91,9 +91,11 @@ impl PyBrowserType {
     ) -> PyResult<Bound<'py, PyAny>> {
         let inner = self.inner.clone();
         pyo3_async_runtimes::tokio::future_into_py(py, async move {
-            let mut opts = LaunchOptions::default();
-            opts.headless = headless;
-            opts.executable_path = executable_path.map(std::path::PathBuf::from);
+            let mut opts = LaunchOptions {
+                headless,
+                executable_path: executable_path.map(std::path::PathBuf::from),
+                ..Default::default()
+            };
             if let Some(a) = args {
                 opts.args = a;
             }
@@ -356,10 +358,7 @@ impl PyPage {
         let inner = self.inner.clone();
         pyo3_async_runtimes::tokio::future_into_py(py, async move {
             let page = inner.lock().await;
-            let result = page
-                .extract_accessibility_tree()
-                .await
-                .map_err(to_py_err)?;
+            let result = page.extract_accessibility_tree().await.map_err(to_py_err)?;
             Python::with_gil(|py| json_to_py(py, &result))
         })
     }
