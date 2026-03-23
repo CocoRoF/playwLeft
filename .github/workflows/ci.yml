@@ -46,9 +46,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install OpenSSL
-        run: sudo apt-get update && sudo apt-get install -y libssl-dev
-
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -110,10 +107,6 @@ jobs:
           key: pip-${{ matrix.os }}-py${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             pip-${{ matrix.os }}-py${{ matrix.python-version }}-
-
-      - name: Install OpenSSL (Linux)
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libssl-dev
 
       - name: Install package and test deps
         run: |

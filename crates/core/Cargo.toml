@@ -15,11 +15,11 @@ tracing-subscriber = { workspace = true }
 futures-util = { workspace = true }
 url = { workspace = true }
 
-# WebSocket client for CDP
-tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
+# WebSocket client for CDP (rustls = pure Rust, no system dependencies)
+tokio-tungstenite = { version = "0.26", features = ["rustls-tls-webpki-roots"] }
 
 # HTTP client for browser discovery
-reqwest = { version = "0.12", default-features = false, features = ["json", "native-tls"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls-webpki-roots"] }
 
 # Process management
 which = "7"
