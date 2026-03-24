@@ -1,7 +1,7 @@
 """Basic navigation example for playwLeft."""
 
 import asyncio
-from playleft import PlaywLeft
+from playwleft import PlaywLeft
 
 
 async def main():

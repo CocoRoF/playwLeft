@@ -3,7 +3,7 @@ requires = ["maturin>=1.7,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "playleft"
+name = "playwleft"
 version = "0.1.0"
 description = "Agent-first browser automation toolkit — Playwright alternative built in Rust"
 readme = "README.md"
@@ -46,7 +46,7 @@ Issues = "https://github.com/CocoRoF/playwLeft/issues"
 
 [tool.maturin]
 manifest-path = "crates/python/Cargo.toml"
-module-name = "playleft._core"
+module-name = "playwleft._core"
 python-source = "python"
 features = ["pyo3/extension-module"]
 

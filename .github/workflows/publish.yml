@@ -128,11 +128,11 @@ jobs:
           # ── Linux x86_64 ──
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            manylinux: auto
+            manylinux: "2_28"
           # ── Linux aarch64 ──
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            manylinux: auto
+            manylinux: "2_28"
           # ── macOS x86_64 (Intel, cross-compiled on ARM) ──
           - os: macos-14
             target: x86_64-apple-darwin
@@ -203,8 +203,10 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
         # Uses Trusted Publisher (OIDC) — no API token needed.
-        # Register at: https://pypi.org/manage/project/playleft/settings/publishing/
+        # Register at: https://pypi.org/manage/project/playwleft/settings/publishing/
 
   # ── 6. Create GitHub Release ──────────────────────────────
   release:
@@ -238,10 +240,10 @@ jobs:
 
             **Rust-powered release** — native compiled extensions for maximum performance.
 
-            Published to [PyPI](https://pypi.org/project/playleft/${{ needs.check-version.outputs.new_version }}/).
+            Published to [PyPI](https://pypi.org/project/playwleft/${{ needs.check-version.outputs.new_version }}/).
 
             ```bash
-            pip install playleft==${{ needs.check-version.outputs.new_version }}
+            pip install playwleft==${{ needs.check-version.outputs.new_version }}
             ```
 
             ### Platforms

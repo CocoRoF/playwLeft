@@ -6,7 +6,7 @@ Provides a Playwright-like API optimized for AI agents and programmatic use.
 
 Usage:
     import asyncio
-    from playleft import PlaywLeft
+    from playwleft import PlaywLeft
 
     async def main():
         pw = PlaywLeft()
@@ -20,7 +20,7 @@ Usage:
     asyncio.run(main())
 """
 
-from playleft._core import (
+from playwleft._core import (
     PlaywLeft,
     BrowserType,
     Browser,
