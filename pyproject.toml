@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "playwleft"
-version = "0.1.0"
+version = "0.1.1"
 description = "Agent-first browser automation toolkit — Playwright alternative built in Rust"
 readme = "README.md"
 license = "Apache-2.0"
@@ -49,6 +49,7 @@ manifest-path = "crates/python/Cargo.toml"
 module-name = "playwleft._core"
 python-source = "python"
 features = ["pyo3/extension-module"]
+include = ["LICENSE", "README.md"]
 
 [tool.ruff]
 line-length = 120
