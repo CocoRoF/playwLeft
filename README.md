@@ -45,7 +45,7 @@ of visual tooling.
 
 ```python
 import asyncio
-from playleft import PlaywLeft
+from playwleft import PlaywLeft
 
 async def main():
     async with PlaywLeft() as pw:
@@ -76,7 +76,7 @@ asyncio.run(main())
 ## Installation
 
 ```bash
-pip install playleft
+pip install playwleft
 ```
 
 ## Class Hierarchy

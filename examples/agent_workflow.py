@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-from playleft import PlaywLeft
+from playwleft import PlaywLeft
 
 
 async def search_and_extract(query: str) -> dict:
